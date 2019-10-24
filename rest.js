@@ -75,11 +75,13 @@ module.exports = function(_SERVER, _AUTH, api) {
     //  FUNCTION BODY
     //
 
-    function run() {
+    function run(cb) {
 
-        const server = https.createServer( options, app ).listen( PORT, function () {
-            console.log( ' %s listening at %s ', HOST, PORT );
-        } );
+        const server = https.createServer( options, app )
+                            .listen( PORT, function () {
+                                                            console.log( ' %s listening at %s ', HOST, PORT );
+                                                            if (cb) cb();
+                                                        } );
 
         server.on( 'error', (e) => {
             if (e.code == 'EADDRINUSE') {

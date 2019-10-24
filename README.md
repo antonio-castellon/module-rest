@@ -10,7 +10,13 @@ Example Code to use this module:
     const API = require('./api.js');
     
     const rest = require('@acastellon/rest')(SERVER, AUTH, API);
-    rest.run();
+    rest.run(); 
+    
+you can pass a function to be executed after the initialization of the server
+
+    rest.run(callback())
+    
+    rest.run(() => { .. })
 
 
 Configuration Files required:
