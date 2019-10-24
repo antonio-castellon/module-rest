@@ -15,7 +15,7 @@ const cookieParser      = require('cookie-parser');
 const bodyParser        = require("body-parser");
 
 
-module.exports = function(setup) {
+module.exports = function(_SERVER, _AUTH, api) {
 
     const model = {};
 
@@ -23,20 +23,14 @@ module.exports = function(setup) {
     // CONFIGURATION
     //
 
-    const config    = {
-        SERVER : require(setup.SERVER)
-        , AUTH : require(setup.AUTH)
-    }
-
-    const cors      = require('@acastellon/cors')(config.SERVER.WHITELIST);
-    const auth      = require('@acastellon/auth')(config.AUTH);
-    const api       = require(config.SERVER.API);
+    const cors      = require('@acastellon/cors')(_SERVER.WHITELIST);
+    const auth      = require('@acastellon/auth')(_AUTH);
 
     const app   = express();
     const os 	= require("os");
     const HOST  = os.hostname();
 
-    const PORT  = process.env.PORT || config.SERVER.PORT;
+    const PORT  = process.env.PORT || _SERVER.PORT;
 
     // PREPARING ACESS SECURITY & FILTERINGS
 
@@ -49,9 +43,9 @@ module.exports = function(setup) {
     cors.enableCORS(app);  // Headers + CORS
 
     // In case of Authentication based in NTLM, normally is related to the Server Web FrontEnd.
-    if (config.AUTH.AUTH_TYPE == 'NTLM') auth.setNTLMAuth(app);
+    if (_AUTH.AUTH_TYPE == 'NTLM') auth.setNTLMAuth(app);
     // this is the common usage for a WS (JWT)
-    else if (config.AUTH.AUTH_TYPE == 'JWT' ) auth.validateToken(app);
+    else if (_AUTH.AUTH_TYPE == 'JWT' ) auth.validateToken(app);
 
     // ASSIGN ROUTING for the BUSINESS LOGIC
 
@@ -60,12 +54,12 @@ module.exports = function(setup) {
     // SERVER CONNECTION
 
     const options = {
-        key: fs.readFileSync(config.SERVER.CERTIFICATION_PATH + '/privateKey.pem'), //private - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -nocerts -out privateKey.pem
-        cert: fs.readFileSync(config.SERVER.CERTIFICATION_PATH + '/publicCert.pem'), // public - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -clcerts -nokeys -out publicCert.pem
+        key: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/privateKey.pem'), //private - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -nocerts -out privateKey.pem
+        cert: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/publicCert.pem'), // public - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -clcerts -nokeys -out publicCert.pem
         //ca: fs.readFileSync('ssl/ca/ca.crt'),
         requestCert:true,
         rejectUnauthorized: false,  // If true, the server certificate is verified against the list of supplied CAs. USE 'ca' parameter to use it ith strongest security
-        passphrase: fs.readFileSync(config.SERVER.CERTIFICATION_PATH + '/passphrase', "utf8").trim(),
+        passphrase: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/passphrase', "utf8").trim(),
         agent: false
     };
 

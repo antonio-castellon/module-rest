@@ -2,5 +2,9 @@
 // test module
 //
 
-const rest = require('./rest.js')({SERVER: './config.server.js', AUTH: './config.auth.js'});
+const SERVER = require('./config.server.js');
+const AUTH = require('./config.auth.js');
+const API = require('./api.js');
+
+const rest = require('./rest.js')(SERVER, AUTH, API);
 rest.run();
