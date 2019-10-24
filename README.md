@@ -28,6 +28,7 @@ Configuration Files required:
         ,PORT : 7000
         ,WHITELIST : './whitelist'
         ,API : './api.js'
+        ,STATIC_PATH : '/html'         //null = no static files where associated
     }
 
 #### - config.auth.js

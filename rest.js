@@ -48,6 +48,9 @@ module.exports = function(_SERVER, _AUTH, api) {
     else if (_AUTH.AUTH_TYPE == 'JWT' ) auth.validateToken(app);
 
     // ASSIGN ROUTING for the BUSINESS LOGIC
+    if (_SERVER.STATIC_PATH != null) {
+        app.use( '/static', express.static(  __dirname, _SERVER.STATIC_PATH ) )
+    }
 
     app.use('/', api.getRouter());
 
