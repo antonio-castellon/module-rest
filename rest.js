@@ -49,7 +49,7 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     // ASSIGN ROUTING for the BUSINESS LOGIC
     if (_SERVER.STATIC_PATH != null) {
-        app.use( '/static', express.static(  __dirname, _SERVER.STATIC_PATH ) )
+        app.use( '/static', express.static(  __dirname + _SERVER.STATIC_PATH ) )
     }
 
     app.use('/', api.getRouter());
