@@ -5,8 +5,12 @@ Module to encapsulate the common configuration of a base WS based in REST (HTTPS
 
 Example Code to use this module:
 
-    const rest = require('./rest.js')({SERVER: './config.server.js', AUTH: './config.auth.js'});
-    rest.run(); 
+    const SERVER = require('./config.server.js');
+    const AUTH = require('./config.auth.js');
+    const API = require('./api.js');
+    
+    const rest = require('@acastellon/rest')(SERVER, AUTH, API);
+    rest.run();
 
 
 Configuration Files required:
@@ -46,6 +50,14 @@ Configuration Files required:
             , 'Viewer': '<LDAP> VIEWER '
         }
     }
+    
+    
+##### - api.js
+ 
+    - See the api.template.js as a reference to implement the logic.
+
+
+    
 ---
 
 Security files required:

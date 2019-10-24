@@ -1,6 +1,6 @@
 {
   "name": "@acastellon/rest",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "REST (HTTPS) based in Express",
   "main": "rest.js",
   "scripts": {

@@ -7,7 +7,6 @@
 //
 const express     = require('express');
 const vcs       = require('@acastellon/vcs');
-//const vcs       = require('../../modules/vcs/vcs.js');
 
 const about = {
     about: {
