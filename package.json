@@ -1,10 +1,10 @@
 {
   "name": "@acastellon/rest",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "REST (HTTPS) based in Express",
-  "main": "",
+  "main": "rest.js",
   "scripts": {
-    "test": "set SERVER_ENVIRONMENT=local && node test.js"
+    "start": "set SERVER_ENVIRONMENT=local && node test.js"
   },
   "repository": {
     "type": "git",
