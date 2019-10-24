@@ -1,0 +1,36 @@
+{
+  "name": "@acastellon/rest",
+  "version": "1.0.0",
+  "description": "REST (HTTPS) based in Express",
+  "main": "",
+  "scripts": {
+    "test": "set SERVER_ENVIRONMENT=local && node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonio-castellon/module-rest.git"
+  },
+  "keywords": [
+    "rest",
+    "express",
+    "ws"
+  ],
+  "dependencies": {
+    "@acastellon/auth": "^1.0.1",
+    "@acastellon/cors": "^1.0.0",
+    "@acastellon/ldap": "^1.0.0",
+    "@acastellon/vcs": "^1.0.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "helmet": "^3.21.1",
+    "hpp": "^0.2.2",
+    "https": "^1.0.0"
+  },
+  "author": "Antonio Castellon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonio-castellon/module-rest/issues"
+  },
+  "homepage": "https://github.com/antonio-castellon/module-rest#readme"
+}
