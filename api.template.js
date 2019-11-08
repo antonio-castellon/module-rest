@@ -15,9 +15,12 @@ const about = {
             name: 'Antonio Castellon',
             email: 'antonio@castellon.ch'
         },
-        version:  require('./package.json').version + ' , build: ' + vcs.getBuildFile('./build.txt')
+        version:  require('./package.json').version
     }
 };
+
+// -- version Control
+vcs.getHash(__filename).then(function(value) { about.about.hash = value; });
 
 //
 // ROUTES

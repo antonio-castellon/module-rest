@@ -19,15 +19,24 @@ you can pass a function to be executed after the initialization of the server
     rest.run(() => { .. })
 
 
-Configuration Files required:
+Example of configuration files required:
 
 #### - config.server.js
 
     module.exports = {
+        /* where are stored the certificate files */
         CERTIFICATION_PATH : '/opt/<project>/Certificate'
+        
+        /* listener port */ 
         ,PORT : 7000
+        
+        /* file used by CORS to allows requst to the server */
         ,WHITELIST : './whitelist'
+        
+        /* definition of all routes  */
         ,API : './api.js'
+        
+        /* location of the static files if is needed */
         ,STATIC_PATH : '/html'         //null = no static files where associated
     }
 
@@ -35,6 +44,7 @@ Configuration Files required:
 
     module.exports = {
         url: 'ldap://<address>:389'
+        ,DOMAIN: '<domain>'
         ,baseDN: 'DC=<>,DC=<>>'
         ,username: '<username>'
         ,password: '<password>'
@@ -44,7 +54,7 @@ Configuration Files required:
             ,'QA' : '<QA-server.ip.dns.name>'
             ,'PROD' : '<production-server.ip.dns.name>'
         }
-        ,passToken: '<token-used>'          /* JWT token */
+        ,passToken: '<passphrase-optional>'  /* if doesn't exists the module generates ones automatically */
         ,EXPIRES: 86400                     /* expires in 24 hours */
     
         , AUTH_TYPE : 'NTLM'  /* NTLM, JWT or NONE */
