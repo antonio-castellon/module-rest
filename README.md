@@ -32,10 +32,7 @@ Example of configuration files required:
         
         /* file used by CORS to allows requst to the server */
         ,WHITELIST : './whitelist'
-        
-        /* definition of all routes  */
-        ,API : './api.js'
-        
+   
         /* location of the static files if is needed */
         ,STATIC_PATH : '/html'         //null = no static files where associated
     }
