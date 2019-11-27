@@ -84,5 +84,4 @@ Security files required:
 Other files required:
 
 ##### - whitelist : used by CORS
-##### - build.txt : if you want to trace the build version of your app
 
