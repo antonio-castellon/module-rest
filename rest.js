@@ -53,14 +53,8 @@ module.exports = function(_SERVER, _AUTH, api) {
         app.use( '/', express.static(  process.cwd(0) + _SERVER.STATIC_PATH ) )  // __dirname == process.cwd(0)
     }
 
-    app.use('/api/', api.getRouter());
-    app.use('/roles', function(req, res){
-        if (req.ntlm) {
-            ldap.getRoles( req.ntlm.UserName ).then( function (v) {
-                res.json( v );
-            } )
-        } else { res.json({})};
-    });
+    app.use('/api', api.getRouter());
+    app.use('/roles', function(req, res){ if (req.ntlm) { auth.getRoles(req, res); } else { res.json({})}; });
     app.use('/refresh/:userName', function (req, res){ auth.removeCache4(req.params.userName); res.json({})});
 
 
