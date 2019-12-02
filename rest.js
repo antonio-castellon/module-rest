@@ -33,7 +33,7 @@ module.exports = function(_SERVER, _AUTH, api) {
     const PORT  = process.env.PORT || _SERVER.PORT;
 
     // PREPARING ACESS SECURITY & FILTERINGS
-
+    //
     app.use(helmet());
     app.use(hpp());
     app.use(bodyParser.urlencoded({ extended: false })); // this module don't manage files
@@ -42,24 +42,11 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     cors.enableCORS(app);  // Headers + CORS
 
-    // In case of Authentication based in NTLM, normally is related to the Server Web FrontEnd.
-    if (_AUTH.AUTH_TYPE == 'NTLM') auth.setNTLMAuth(app);
-    // this is the common usage for a WS (JWT)
-    else if (_AUTH.AUTH_TYPE == 'JWT' ) auth.validateToken(app);
-
-    // ASSIGN ROUTING for the BUSINESS LOGIC
-    if (_SERVER.STATIC_PATH != null) {
-        console.log(' ... WARNING: static path activated : ' +  process.cwd(0) + _SERVER.STATIC_PATH );
-        app.use( '/', express.static(  process.cwd(0) + _SERVER.STATIC_PATH ) )  // __dirname == process.cwd(0)
-    }
-
-    app.use('/api', api.getRouter());
-    app.use('/roles', function(req, res){ if (req.ntlm) { auth.getRoles(req, res); } else { res.json({})}; });
-    app.use('/refresh/:userName', function (req, res){ auth.removeCache4(req.params.userName); res.json({})});
-
+    if (_AUTH.AUTH_TYPE == 'NTLM') auth.setNTLMAuth(app);  // In case of Authentication based in NTLM, normally is related to the Server Web FrontEnd.
+    else if (_AUTH.AUTH_TYPE == 'JWT' ) auth.validateToken(app); // this is the common usage for a WS (JWT)
 
     // SERVER CONNECTION
-
+    //
     const options = {
         key: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/privateKey.pem'), //private - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -nocerts -out privateKey.pem
         cert: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/publicCert.pem'), // public - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -clcerts -nokeys -out publicCert.pem
@@ -69,6 +56,19 @@ module.exports = function(_SERVER, _AUTH, api) {
         passphrase: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/passphrase', "utf8").trim(),
         agent: false
     };
+
+    // ASSIGN ROUTING for the BUSINESS LOGIC
+    //
+    if (_SERVER.STATIC_PATH != null) {
+        console.log(' ... WARNING: static path activated : ' +  process.cwd(0) + _SERVER.STATIC_PATH );
+        app.use( '/', express.static(  process.cwd(0) + _SERVER.STATIC_PATH ) )  // __dirname == process.cwd(0)
+    }
+
+    app.use('/api', api.getRouter(options));
+    app.use('/roles', function(req, res){ if (req.ntlm) { auth.getRoles(req, res); } else { res.json({})}; });
+    app.use('/refresh/:userName', function (req, res){ auth.removeCache4(req.params.userName); res.json({})});
+
+
 
 
     //

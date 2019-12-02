@@ -22,11 +22,15 @@ const about = {
 // -- version Control
 vcs.getHash(__filename).then(function(value) { about.about.hash = value; });
 
+var agentOptions = null;
+
 //
 // ROUTES
 //
 
-function getRouter() {
+function getRouter(options) {
+
+    agentOptions = options; // in case that you need to use this options for a forwarding request to another service
 
     const router = express.Router();
 
