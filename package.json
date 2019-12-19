@@ -1,6 +1,6 @@
 {
   "name": "@acastellon/rest",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "REST (HTTPS) based in Express",
   "main": "rest.js",
   "scripts": {
@@ -25,7 +25,8 @@
     "express": "^4.17.1",
     "helmet": "^3.21.1",
     "hpp": "^0.2.2",
-    "https": "^1.0.0"
+    "https": "^1.0.0",
+    "compression": "^1.7.4"
   },
   "author": "Antonio Castellon",
   "license": "MIT",

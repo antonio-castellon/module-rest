@@ -44,10 +44,10 @@ module.exports.getRouter = getRouter;
 
 //
 // Business Logic
-//
+// tip: use ".catch(next)" at the end of any Promise to throw/return a common/generic error message (status 500 + info)
 
 function getAbout(req, res, next) {
-    return res.send(about);
+    return res.json(about);
 }
 
 

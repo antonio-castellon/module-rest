@@ -6,6 +6,7 @@
 // Author: Antonio Castellon - antonio@castellon.ch
 //
 //
+const compression = require('compression')
 const express     = require('express');
 const fs          = require('fs');
 const https       = require('https');
@@ -34,6 +35,7 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     // PREPARING ACESS SECURITY & FILTERINGS
     //
+    app.use(compression());
     app.use(helmet());
     app.use(hpp());
     app.use(bodyParser.urlencoded({ extended: false })); // this module don't manage files
@@ -68,6 +70,11 @@ module.exports = function(_SERVER, _AUTH, api) {
     app.use('/roles', function(req, res){ if (req.ntlm) { auth.getRoles(req, res); } else { res.json({})}; });
     app.use('/refresh/:userName', function (req, res){ auth.removeCache4(req.params.userName); res.json({})});
 
+    app.use(function (err, req, res, next) {
+        // handle error
+        // in case that any method from API return a next, we can catch it here and return a BASIC common error message tot he client response
+        res.status(500).json({ERROR: err});
+    })
 
 
 
