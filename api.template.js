@@ -28,13 +28,20 @@ var agentOptions = null;
 // ROUTES
 //
 
+function setEndpoint(route, description) {
+    let endPoint = route;
+    endPoint.description = description;
+    return endPoint;
+}
+
+
 function getRouter(options) {
 
     agentOptions = options; // in case that you need to use this options for a forwarding request to another service
 
     const router = express.Router();
 
-    router.route('/').get(getAbout);
+    setEndpoint(router.route('/'), 'this is an Endpoint description').get(getAbout);
 
     return router;
 }
