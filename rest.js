@@ -76,7 +76,7 @@ module.exports = function(_SERVER, _AUTH, api) {
         res.status(500).json({ERROR: err});
     })
 
-    app.use('c', function(req, res){
+    app.use('/', function(req, res){
 
         let routes = [];
 
