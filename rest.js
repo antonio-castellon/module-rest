@@ -78,17 +78,12 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     app.use('/endpoints', function(req, res){
 
-        let route, routes = [];
+        let routes = [];
 
         app._router.stack.forEach(function(middleware){
             if(middleware.name === 'router'){ // router middleware
                 middleware.handle.stack.forEach(function(handler){
-                    route = handler.route;
-                    routes.push({
-                        path : route.path,
-                        methods : route.methods,
-                        description : route.description
-                    });
+                    routes.push(handler.route);
                 });
             }
         });
