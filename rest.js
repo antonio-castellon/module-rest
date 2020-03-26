@@ -52,7 +52,7 @@ module.exports = function(_SERVER, _AUTH, api) {
     const options = {
         key: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/privateKey.pem'), //private - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -nocerts -out privateKey.pem
         cert: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/publicCert.pem'), // public - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -clcerts -nokeys -out publicCert.pem
-        //ca: fs.readFileSync('ssl/ca/ca.crt'),
+        ca: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/ca.pem'),
         requestCert:true,
         rejectUnauthorized: false,  // If true, the server certificate is verified against the list of supplied CAs. USE 'ca' parameter to use it ith strongest security
         passphrase: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/passphrase', "utf8").trim(),

@@ -76,6 +76,7 @@ Example of configuration files required:
 
 Security files required:
 
+##### - ca.pem
 ##### - privateKey.pem
 ##### - publicCert.pem
 ##### - passphrase
