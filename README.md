@@ -24,7 +24,11 @@ Example of configuration files required:
 #### - config.server.js
 
     module.exports = {
-        /* where are stored the certificate files */
+        /* 
+          Switch between HTTP and 
+          HTTPS server (it's activated when this parameter is defined 
+          indicating where are stored the certificate files) 
+        */
         CERTIFICATION_PATH : '/opt/<project>/Certificate'
         
         /* listener port */ 

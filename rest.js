@@ -49,15 +49,19 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     // SERVER CONNECTION
     //
-    const options = {
-        key: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/privateKey.pem'), //private - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -nocerts -out privateKey.pem
-        cert: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/publicCert.pem'), // public - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -clcerts -nokeys -out publicCert.pem
-        ca: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/ca.pem'),
-        requestCert:true,
-        rejectUnauthorized: false,  // If true, the server certificate is verified against the list of supplied CAs. USE 'ca' parameter to use it ith strongest security
-        passphrase: fs.readFileSync(_SERVER.CERTIFICATION_PATH + '/passphrase', "utf8").trim(),
-        agent: false
-    };
+    let options = {};
+
+    if (_SERVER.CERTIFICATION_PATH) {
+        options = {
+            key: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/privateKey.pem' ), //private - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -nocerts -out privateKey.pem
+            cert: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/publicCert.pem' ), // public - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -clcerts -nokeys -out publicCert.pem
+            ca: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/ca.pem' ),
+            requestCert: true,
+            rejectUnauthorized: false,  // If true, the server certificate is verified against the list of supplied CAs. USE 'ca' parameter to use it ith strongest security
+            passphrase: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/passphrase', "utf8" ).trim(),
+            agent: false
+        };
+    }
 
     // ASSIGN ROUTING for the BUSINESS LOGIC
     //
@@ -111,7 +115,12 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     function run(cb) {
 
-        const server = https.createServer( options, app )
+        let serverFactory;
+
+        if (_SERVER.CERTIFICATION_PATH) { serverFactory = require('https');  }
+        else { serverFactory = require('http'); }
+
+        const server = serverFactory.createServer( options, app )
                             .listen( PORT, function () {
                                                             console.log( ' %s listening at %s ', HOST, PORT );
                                                             if (cb) cb();
