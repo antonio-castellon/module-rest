@@ -9,7 +9,6 @@
 const compression = require('compression')
 const express     = require('express');
 const fs          = require('fs');
-const https       = require('https');
 const helmet      = require('helmet');  // security - https://github.com/helmetjs/helmet
 const hpp         = require('hpp');     // security - https://github.com/analog-nico/hpp
 const cookieParser      = require('cookie-parser');
