@@ -50,11 +50,8 @@ Example of configuration files required:
         ,username: '<username>'
         ,password: '<password>'
     
-        ,hostNames: {
-            'DEV' : '<dev-server.ip.dns.name>'
-            ,'QA' : '<QA-server.ip.dns.name>'
-            ,'PROD' : '<production-server.ip.dns.name>'
-        }
+        ,CNAME: '<server.ip-or-dns.name>'
+        
         ,passToken: '<passphrase-optional>'  /* if doesn't exists the module generates ones automatically */
         ,EXPIRES: 86400                     /* expires in 24 hours */
     

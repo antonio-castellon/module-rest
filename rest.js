@@ -98,6 +98,9 @@ module.exports = function(_SERVER, _AUTH, api) {
         res.json(routes);
     });
 
+    function getApplication() {
+        return app;
+    }
 
 
 
@@ -106,6 +109,7 @@ module.exports = function(_SERVER, _AUTH, api) {
     //
 
     model.run = run;
+    model.getApplication = getApplication;
 
 
     //
