@@ -98,18 +98,12 @@ module.exports = function(_SERVER, _AUTH, api) {
         res.json(routes);
     });
 
-    function getApplication() {
-        return app;
-    }
-
-
-
     //
     // ASSIGNATIONS
     //
 
     model.run = run;
-    model.getApplication = getApplication;
+    model.app = app;
 
 
     //
