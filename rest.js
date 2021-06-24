@@ -38,7 +38,7 @@ module.exports = function(_SERVER, _AUTH, api) {
     app.use(helmet());
     app.use(hpp());
     app.use(bodyParser.urlencoded({ extended: false })); // this module don't manage files
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({ limit: '50mb' }));
     app.use(cookieParser());
 
     cors.enableCORS(app);  // Headers + CORS
@@ -52,8 +52,8 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     if (_SERVER.CERTIFICATION_PATH) {
         options = {
-            key: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/privateKey.pem' ), //private - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -nocerts -out privateKey.pem
-            cert: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/publicCert.pem' ), // public - openssl.exe pkcs12 -in rd-brdb.app.pmi.p12 -clcerts -nokeys -out publicCert.pem
+            key: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/privateKey.pem' ), //private - openssl.exe pkcs12 -in domain.app.p12 -nocerts -out privateKey.pem
+            cert: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/publicCert.pem' ), // public - openssl.exe pkcs12 -in domain.app.p12 -clcerts -nokeys -out publicCert.pem
             ca: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/ca.pem' ),
             requestCert: true,
             rejectUnauthorized: false,  // If true, the server certificate is verified against the list of supplied CAs. USE 'ca' parameter to use it ith strongest security
