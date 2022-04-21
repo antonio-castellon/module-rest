@@ -13,7 +13,7 @@ const helmet      = require('helmet');  // security - https://github.com/helmetj
 const hpp         = require('hpp');     // security - https://github.com/analog-nico/hpp
 const cookieParser      = require('cookie-parser');
 const bodyParser        = require("body-parser");
-
+const constants         = require('crypto').constants; // alternative for TLS: https://developer.ibm.com/blogs/migrating-to-tls13-in-nodejs/
 
 module.exports = function(_SERVER, _AUTH, api) {
 
@@ -58,7 +58,8 @@ module.exports = function(_SERVER, _AUTH, api) {
             requestCert: true,
             rejectUnauthorized: false,  // If true, the server certificate is verified against the list of supplied CAs. USE 'ca' parameter to use it ith strongest security
             passphrase: fs.readFileSync( _SERVER.CERTIFICATION_PATH + '/passphrase', "utf8" ).trim(),
-            agent: false
+            agent: false,
+            secureOptions: constants.SSL_OP_NO_SSLv2 | constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_TLSv1 | constants.SSL_OP_NO_TLSv1_1
         };
     }
 
