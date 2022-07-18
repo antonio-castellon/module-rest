@@ -1,14 +1,17 @@
 module.exports = {
-    url: 'ldap://<address>:389'
+    url: 'ldaps://<address>:636'
     ,baseDN: 'DC=<>,DC=<>>'
     ,username: '<username>'
     ,password: '<password>'
-
+    ,tlsOptions: {
+        'rejectUnauthorized': false
+    }
     ,hostNames: {
         'DEV' : '<dev-server.ip.dns.name>'
         ,'QA' : '<QA-server.ip.dns.name>'
         ,'PROD' : '<production-server.ip.dns.name>'
     }
+
     ,passToken: '<token-used>'
     ,EXPIRES: 86400                     /* expires in 24 hours */
 
