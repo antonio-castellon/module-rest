@@ -16,7 +16,7 @@
     "ws"
   ],
   "dependencies": {
-    "@acastellon/auth": "1.0.15",
+    "@acastellon/auth": "1.0.16",
     "@acastellon/cors": "1.0.3",
     "@acastellon/ldap": "1.0.7",
     "@acastellon/vcs": "1.0.2",
