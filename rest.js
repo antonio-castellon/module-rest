@@ -35,7 +35,7 @@ module.exports = function(_SERVER, _AUTH, api) {
     // PREPARING ACESS SECURITY & FILTERINGS
     //
     app.use(compression());
-    app.use(helmet());
+    app.use(helmet( { contentSecurityPolicy: false } ));
     app.use(hpp());
     app.use(bodyParser.urlencoded({ extended: false })); // this module don't manage files
     app.use(bodyParser.json({ limit: '50mb' }));
