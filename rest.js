@@ -67,7 +67,9 @@ module.exports = function(_SERVER, _AUTH, api) {
     //
     if (_SERVER.STATIC_PATH != null) {
         console.log(' ... WARNING: static path activated : ' +  process.cwd(0) + _SERVER.STATIC_PATH );
+
         app.use( '/', express.static(  process.cwd(0) + _SERVER.STATIC_PATH ) )  // __dirname == process.cwd(0)
+
     }
 
     app.use('/api', api.getRouter(options));
@@ -76,7 +78,12 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     app.use(function (err, req, res, next) {
         // handle error
-        // in case that any method from API return a next, we can catch it here and return a BASIC common error message tot he client response
+        // in case that any method from API return a next, we can catch it here and return a BASIC common error message to the client response
+        console.log(' ////////// /////////////// INTERNAL EXCEPTION DETECTED ///////////////////// ');
+        console.log(err);
+        console.log(req);
+        console.log(res);
+        console.log(' ////////// /////////////// sending signal as 500 code with error message ///////////////////// ');
         res.status(500).json({ERROR: err});
     })
 
@@ -131,6 +138,10 @@ module.exports = function(_SERVER, _AUTH, api) {
                     server.close();
                     server.listen( PORT, HOST );
                 }, 2000 );
+            }
+            else {
+                console.log('ACHTUNG! Unknown server error .... ')
+                console.log(e);
             }
         } );
     }
