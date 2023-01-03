@@ -3,4 +3,5 @@ module.exports = {
     ,PORT : 7000
     ,WHITELIST : './whitelist'
     ,STATIC_PATH : null         //null = no static files where associated
+    ,CACHE: true
 }

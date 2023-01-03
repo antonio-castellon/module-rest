@@ -32,6 +32,21 @@ module.exports = function(_SERVER, _AUTH, api) {
 
     const PORT  = process.env.PORT || _SERVER.PORT;
 
+    const createStatic = require('@acastellon/connect-static');
+    const cache =  {
+        dir: process.cwd(0) + _SERVER.STATIC_PATH ,
+        aliases: [
+            ['/', '/index.html']
+        ],
+        followSymlinks: true,
+        cacheControlHeader: "max-age=3600, must-revalidate"
+    }
+
+    // SERVER CONNECTION
+    //
+    let options = {};
+
+
     // PREPARING ACESS SECURITY & FILTERINGS
     //
     app.use(compression());
@@ -46,9 +61,7 @@ module.exports = function(_SERVER, _AUTH, api) {
     if (_AUTH.AUTH_TYPE == 'NTLM') auth.setNTLMAuth(app);  // In case of Authentication based in NTLM, normally is related to the Server Web FrontEnd.
     else if (_AUTH.AUTH_TYPE == 'JWT' ) auth.validateToken(app); // this is the common usage for a WS (JWT)
 
-    // SERVER CONNECTION
-    //
-    let options = {};
+
 
     if (_SERVER.CERTIFICATION_PATH) {
         options = {
@@ -68,9 +81,24 @@ module.exports = function(_SERVER, _AUTH, api) {
     if (_SERVER.STATIC_PATH != null) {
         console.log(' ... WARNING: static path activated : ' +  process.cwd(0) + _SERVER.STATIC_PATH );
 
-        app.use( '/', express.static(  process.cwd(0) + _SERVER.STATIC_PATH ) )  // __dirname == process.cwd(0)
-
+        if (_SERVER.CACHE){
+            console.log('...cache for static files activated')
+            createStatic(cache, function (err, middleware) {
+                if (err){
+                    console.error(err);
+                    throw err;
+                }
+                app.use('/', middleware);
+                setRoutes(app);
+            });
+        }
+        else{
+            app.use( '/', express.static(  process.cwd(0) + _SERVER.STATIC_PATH ) )  // __dirname == process.cwd(0)
+            setRoutes(app);
+        }
     }
+
+
 
     app.use('/api', api.getRouter(options));
     app.use('/roles', function(req, res){ if (req.ntlm) { auth.getRoles(req, res); } else { res.json({})}; });
@@ -80,31 +108,20 @@ module.exports = function(_SERVER, _AUTH, api) {
         // handle error
         // in case that any method from API return a next, we can catch it here and return a BASIC common error message to the client response
         console.log(' ////////// /////////////// INTERNAL EXCEPTION DETECTED ///////////////////// ');
+        console.log(req.url);
         console.log(err);
-        console.log(req);
-        console.log(res);
+        //console.log(res);
         console.log(' ////////// /////////////// sending signal as 500 code with error message ///////////////////// ');
         res.status(500).json({ERROR: err});
     })
 
-    app.use('/', function(req, res){
 
-        let route, routes = [];
 
-        app._router.stack.forEach(function(middleware){
-            if(middleware.name === 'router'){ // router middleware
-                middleware.handle.stack.forEach(function(handler){
-                    route = handler.route;
-                    routes.push({
-                        path : route.path,
-                        methods : route.methods,
-                        description : route.description
-                    });
-                });
-            }
-        });
-        res.json(routes);
-    });
+
+
+    app.enable('view cache');
+
+
 
     //
     // ASSIGNATIONS
@@ -147,6 +164,28 @@ module.exports = function(_SERVER, _AUTH, api) {
     }
 
 
+    function setRoutes(app){
+
+        app.use('/', function(req, res){
+
+            let route, routes = [];
+
+            app._router.stack.forEach(function(middleware){
+                if(middleware.name === 'router'){ // router middleware
+                    middleware.handle.stack.forEach(function(handler){
+                        route = handler.route;
+                        routes.push({
+                            path : route.path,
+                            methods : route.methods,
+                            description : route.description
+                        });
+                    });
+                }
+            });
+            res.json(routes);
+        });
+
+    }
 
     return model;
 };

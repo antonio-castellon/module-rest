@@ -1,6 +1,6 @@
 {
   "name": "@acastellon/rest",
-  "version": "1.1.12",
+  "version": "1.2.3",
   "description": "REST (HTTPS) based in Express",
   "main": "rest.js",
   "scripts": {
@@ -16,10 +16,11 @@
     "ws"
   ],
   "dependencies": {
-    "@acastellon/auth": "1.0.18",
+    "@acastellon/auth": "1.0.20",
     "@acastellon/cors": "1.0.3",
     "@acastellon/ldap": "1.0.7",
     "@acastellon/vcs": "1.0.2",
+    "@acastellon/connect-static": "1.6.1",
     "async": "^3.2.4",
     "body-parser": "^1.20.1",
     "compression": "^1.7.4",
