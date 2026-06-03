@@ -33,6 +33,32 @@ Key behaviors:
 
 The apiModule is expected to export `{ getRouter(options) }` that returns an express Router.
 
+**Minimal example (self-contained with template api):**
+
+```js
+const express = require('express');
+const restMod = require('@acastellon/rest');
+
+// Minimal api module (see api.template.js)
+const api = require('./api.template.js');
+
+const SERVER = {
+  PORT: 3000,
+  WHITELIST: './whitelist',
+  STATIC_PATH: null,
+  CACHE: false
+  // CERTIFICATION_PATH: '...' // uncomment for HTTPS
+};
+
+const AUTH = require('./config.auth.js'); // your auth config
+
+const rest = restMod(SERVER, AUTH, api);
+
+rest.run(() => {
+  console.log('REST server running');
+});
+```
+
 ## License
 
 MIT
