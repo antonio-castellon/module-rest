@@ -1,8 +1,22 @@
 # @acastellon/rest
 
-REST (HTTPS) server based in Express, with built-in auth (NTLM/JWT), CORS, helmet etc.
+REST (HTTPS) based in Express, with integrated security (helmet, hpp), CORS, auth (via @acastellon/auth for NTLM/JWT), static serving (optional with cache).
 
-Part of the @acastellon microservices modules.
+Depends on sibling modules for auth/cors/vcs.
+
+**Note:** Depends on `@acastellon/connect-static` (not in this module-* set, may be custom/external).
+
+## Install
+
+```bash
+npm install @acastellon/rest
+```
+
+## Usage
+
+Provide SERVER and AUTH configs + an api module with getRouter(options).
+
+See templates.
 
 ## License
 

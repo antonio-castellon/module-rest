@@ -38,5 +38,14 @@
   "homepage": "https://github.com/antonio-castellon/module-rest#readme",
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "files": [
+    "rest.js",
+    "README.md",
+    "LICENSE",
+    "api.template.js",
+    "config.*.template.js",
+    "test.js",
+    "whitelist"
+  ]
 }
